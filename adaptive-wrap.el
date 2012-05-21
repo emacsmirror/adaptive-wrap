@@ -28,20 +28,69 @@
 
 ;;; Code:
 
+(defcustom adaptive-wrap-extra-indent 0
+  "Number of extra spaces to indent in `adaptive-wrap-prefix-mode'.
+
+`adaptive-wrap-prefix-mode' indents the visual lines to
+the level of the actual line plus `adaptive-wrap-extra-indent'.
+A negative value will do a relative de-indent.
+
+Examples:
+
+actual indent = 2
+extra indent = -1
+
+  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+ eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+ enim ad minim veniam, quis nostrud exercitation ullamco laboris
+ nisi ut aliquip ex ea commodo consequat.
+
+actual indent = 2
+extra indent = 2
+
+  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+    enim ad minim veniam, quis nostrud exercitation ullamco laboris
+    nisi ut aliquip ex ea commodo consequat."
+  :type 'integer
+  :group 'visual-line)
+(make-local-variable 'adaptive-wrap-extra-indent)
+
+(defun adaptive-wrap-fill-context-prefix (beg en)
+  "Like `fill-context-prefix', but with length adjusted by `adaptive-wrap-extra-indent'."
+  (let* ((fcp (fill-context-prefix beg en))
+         (fcp-len (string-width fcp))
+         (fill-char (if (< 0 fcp-len)
+                        (string-to-char (substring fcp -1))
+                      ?\ )))
+    (cond
+     ((= 0 adaptive-wrap-extra-indent)
+      fcp)
+     ((< 0 adaptive-wrap-extra-indent)
+      (concat fcp
+              (make-string adaptive-wrap-extra-indent fill-char)))
+     ((< 0 (+ adaptive-wrap-extra-indent fcp-len))
+      (substring fcp
+                 0
+                 (+ adaptive-wrap-extra-indent fcp-len)))
+     (t
+      ""))))
+
 (defun adaptive-wrap-prefix-function (beg end)
   "Indent the region between BEG and END with adaptive filling."
   (goto-char beg)
   (while (< (point) end)
-    (let ((blp (line-beginning-position)))
+    (let ((lbp (line-beginning-position)))
       (put-text-property (point)
                          (progn (search-forward "\n" end 'move) (point))
                          'wrap-prefix
-                         (fill-context-prefix blp (point))))))
+                         (adaptive-wrap-fill-context-prefix lbp (point))))))
 
 ;;;###autoload
 (define-minor-mode adaptive-wrap-prefix-mode
   "Wrap the buffer text with adaptive filling."
   :lighter ""
+  :group 'visual-line
   (if adaptive-wrap-prefix-mode
       (jit-lock-register #'adaptive-wrap-prefix-function)
     (jit-lock-unregister #'adaptive-wrap-prefix-function)
@@ -49,7 +98,6 @@
       (save-restriction
         (widen)
         (remove-text-properties (point-min) (point-max) '(wrap-prefix nil))))))
-
 
 (provide 'adaptive-wrap)
 ;;; adaptive-wrap.el ends here
