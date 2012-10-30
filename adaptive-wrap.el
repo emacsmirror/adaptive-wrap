@@ -1,6 +1,6 @@
 ;;; adaptive-wrap.el --- Smart line-wrapping with wrap-prefix
 
-;; Copyright (C) 2011  Stefan Monnier
+;; Copyright (C) 2011, 2012  Free Software Foundation, Inc.
 
 ;; Author: Stephen Berman <stephen.berman@gmx.net>
 ;;         Stefan Monnier <monnier@iro.umontreal.ca>
