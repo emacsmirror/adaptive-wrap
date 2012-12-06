@@ -4,7 +4,7 @@
 
 ;; Author: Stephen Berman <stephen.berman@gmx.net>
 ;;         Stefan Monnier <monnier@iro.umontreal.ca>
-;; Version: 0.1
+;; Version: 0.2
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -54,7 +54,7 @@ extra indent = 2
     nisi ut aliquip ex ea commodo consequat."
   :type 'integer
   :group 'visual-line)
-(make-local-variable 'adaptive-wrap-extra-indent)
+(make-variable-buffer-local 'adaptive-wrap-extra-indent)
 
 (defun adaptive-wrap-fill-context-prefix (beg en)
   "Like `fill-context-prefix', but with length adjusted by `adaptive-wrap-extra-indent'."
