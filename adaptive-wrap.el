@@ -58,7 +58,9 @@ extra indent = 2
 
 (defun adaptive-wrap-fill-context-prefix (beg en)
   "Like `fill-context-prefix', but with length adjusted by `adaptive-wrap-extra-indent'."
-  (let* ((fcp (fill-context-prefix beg en))
+  ;; Note: fill-context-prefix may return nil; See:
+  ;; http://article.gmane.org/gmane.emacs.devel/156285
+  (let* ((fcp (or (fill-context-prefix beg en) ""))
          (fcp-len (string-width fcp))
          (fill-char (if (< 0 fcp-len)
                         (string-to-char (substring fcp -1))
