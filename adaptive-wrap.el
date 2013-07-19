@@ -1,10 +1,10 @@
 ;;; adaptive-wrap.el --- Smart line-wrapping with wrap-prefix
 
-;; Copyright (C) 2011, 2012  Free Software Foundation, Inc.
+;; Copyright (C) 2011-2013  Free Software Foundation, Inc.
 
 ;; Author: Stephen Berman <stephen.berman@gmx.net>
 ;;         Stefan Monnier <monnier@iro.umontreal.ca>
-;; Version: 0.2
+;; Version: 0.3
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -100,6 +100,26 @@ extra indent = 2
       (save-restriction
         (widen)
         (remove-text-properties (point-min) (point-max) '(wrap-prefix nil))))))
+
+;;;###autoload
+(easy-menu-add-item menu-bar-options-menu
+                    '("Line Wrapping in This Buffer")
+                    ["Adaptive Wrap"
+                     (lambda ()
+                       (interactive)
+		       (if adaptive-wrap-prefix-mode
+			   (adaptive-wrap-prefix-mode -1)
+			 (adaptive-wrap-prefix-mode 1)))
+                     :visible (menu-bar-menu-frame-live-and-visible-p)
+                     :help "Show wrapped long lines with an adjustable prefix"
+                     :style toggle
+                     :selected adaptive-wrap-prefix-mode])
+
+(defun adaptive-wrap-unload-function ()
+  "Cleanup adaptive-wrap package."
+  (easy-menu-remove-item menu-bar-options-menu
+                         '("Line Wrapping in This Buffer")
+                         "Adaptive Wrap"))
 
 (provide 'adaptive-wrap)
 ;;; adaptive-wrap.el ends here
