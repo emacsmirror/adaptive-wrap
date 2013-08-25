@@ -96,7 +96,13 @@ extra indent = 2
   :lighter ""
   :group 'visual-line
   (if adaptive-wrap-prefix-mode
-      (jit-lock-register #'adaptive-wrap-prefix-function)
+      (progn
+        ;; HACK ATTACK!  We need to run after font-lock, but jit-lock-register
+        ;; doesn't accept an `append' argument, so we add ourselves beforehand,
+        ;; to make sure we're at the end of the hook (bug#15155).
+        (add-hook 'jit-lock-functions
+                  #'adaptive-wrap-prefix-function 'append t)
+        (jit-lock-register #'adaptive-wrap-prefix-function))
     (jit-lock-unregister #'adaptive-wrap-prefix-function)
     (with-silent-modifications
       (save-restriction
