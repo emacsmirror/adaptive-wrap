@@ -1,10 +1,10 @@
 ;;; adaptive-wrap.el --- Smart line-wrapping with wrap-prefix
 
-;; Copyright (C) 2011-2013  Free Software Foundation, Inc.
+;; Copyright (C) 2011-2013, 2017  Free Software Foundation, Inc.
 
 ;; Author: Stephen Berman <stephen.berman@gmx.net>
 ;;         Stefan Monnier <monnier@iro.umontreal.ca>
-;; Version: 0.5
+;; Version: 0.5.1
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -55,6 +55,7 @@ extra indent = 2
     enim ad minim veniam, quis nostrud exercitation ullamco laboris
     nisi ut aliquip ex ea commodo consequat."
   :type 'integer
+  :safe 'integerp
   :group 'visual-line)
 (make-variable-buffer-local 'adaptive-wrap-extra-indent)
 
