@@ -105,7 +105,8 @@ extra indent = 2
       ""))))
 
 (defun adaptive-wrap-fill-context-prefix (beg end)
-  "Like `fill-context-prefix', but with length adjusted by `adaptive-wrap-extra-indent'."
+  "Like `fill-context-prefix', but with length adjusted.
+How much to adjust it is decided by `adaptive-wrap-extra-indent'."
   (let* ((fcp
           ;; `fill-context-prefix' ignores prefixes that look like paragraph
           ;; starts, in order to avoid inadvertently creating a new paragraph
