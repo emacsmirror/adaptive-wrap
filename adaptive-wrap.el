@@ -4,6 +4,7 @@
 
 ;; Author: Stephen Berman <stephen.berman@gmx.net>
 ;;         Stefan Monnier <monnier@iro.umontreal.ca>
+;; Package-Requires: ((emacs "24.1"))
 ;; Version: 0.8
 
 ;; This program is free software; you can redistribute it and/or modify
