@@ -1,11 +1,11 @@
 ;;; adaptive-wrap.el --- Smart line-wrapping with wrap-prefix  -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2011-2021  Free Software Foundation, Inc.
+;; Copyright (C) 2011-2026  Free Software Foundation, Inc.
 
 ;; Author: Stephen Berman <stephen.berman@gmx.net>
 ;;         Stefan Monnier <monnier@iro.umontreal.ca>
 ;; Package-Requires: ((emacs "24.1"))
-;; Version: 0.8
+;; Version: 0.9
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -26,6 +26,12 @@
 ;; the wrap-prefix property on the fly so that single-long-line paragraphs get
 ;; word-wrapped in a way similar to what you'd get with M-q using
 ;; adaptive-fill-mode, but without actually changing the buffer's text.
+
+;;; News:
+
+;; Since version 0.8:
+
+;; - Use `lexical-binding'.
 
 ;;; Code:
 
